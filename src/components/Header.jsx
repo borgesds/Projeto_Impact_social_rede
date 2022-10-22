@@ -1,9 +1,12 @@
 import styles from './Header.module.css'
 
+import igniteLogo from '../assets/ignite-logo.svg'
+
 export function Header() {
     return (
         <header className={styles.header}>
-            <strong>IMPACT SOCIAL</strong>
+            <img src={igniteLogo} alt="Logotipo do Site" />
+            <strong>IMPACT SOCIAL MEDIA</strong>
         </header>
     )
 }

@@ -1,0 +1,11 @@
+.wrapper {
+    max-width: 70rem;
+    margin: 2rem auto;
+    padding: 0 1rem;
+
+    display: grid;
+    /* siderbar */
+    grid-template-columns: 256px 1fr;
+    gap: 2rem; /* espaço entre siderbar e posts */
+    align-items: flex-start;
+}
