@@ -14,6 +14,7 @@
     --green-500: #00875f;
 }
 
+/* mudar o focu quando se usa tab ou selecioanaalgo */
 :focus {
     outline: transparent;
     box-shadow: 0 0 0 1px var(--green-300);
