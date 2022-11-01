@@ -19,7 +19,7 @@ export function Post({ author, publishedAt, content }) {
     ])
 
     // aqui armazena novos comentários
-    const [newCommentText, setNewCommentText] = useState()
+    const [newCommentText, setNewCommentText] = useState('')
 
 
     // formatar data
@@ -38,6 +38,15 @@ export function Post({ author, publishedAt, content }) {
         // mandar o comentario para dentro useState
         // ...comments pega tudo que existe armazenado
         setComments([...comments, newCommentText])
+
+        // manter o comentario vazio depois que enviar
+        setNewCommentText('')
+
+    }
+
+    function handleNewCommentChange() {
+        // me retorna o que e salva o valor digitado
+        setNewCommentText(event.target.value)
     }
 
 
@@ -74,7 +83,10 @@ export function Post({ author, publishedAt, content }) {
                 <strong>Deixe seu feedback</strong>
 
                 <textarea
+                    name='comment'
                     placeholder='Deixe um comentário'
+                    value={newCommentText}
+                    onChange={handleNewCommentChange}
                 />
 
                 <footer>
