@@ -1,6 +1,6 @@
 import { format, formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
-import { Cpu } from 'phosphor-react'
+
 import { useState } from 'react'
 
 import { Avatar } from './Avatar'
@@ -19,6 +19,7 @@ export function Post({ author, publishedAt, content }) {
     ])
 
     // aqui armazena novos comentários
+    // tudo que é digitado dentro de textarea
     const [newCommentText, setNewCommentText] = useState('')
 
 
@@ -45,9 +46,31 @@ export function Post({ author, publishedAt, content }) {
     }
 
     function handleNewCommentChange() {
+        // se o usuario escreve e depois apagar, evita de chamar a mensagem de erro
+        event.target.setCustomValidity('')
         // me retorna o que e salva o valor digitado
         setNewCommentText(event.target.value)
     }
+
+    function handleNewCommentInvalid() {
+        // retorna uma mensagem se não tiver comentarios
+        event.target.setCustomValidity('Esse campo é obrigatório!')
+    }
+
+    function deleteComment(commentToDelete) {
+        // cria uma nova lista de comentarios sem o que foi deletado
+        const commentsWithoutDeletedOne = comments.filter(comment => {
+            return comment !== commentToDelete
+        })
+
+        // depois que deletou chama a função
+        // setComments atualiza o array de comentarios
+        setComments(commentsWithoutDeletedOne)
+    }
+
+    /* variaveis extras */
+    // para button type='submit' disabled={}
+    const isNewComment = newCommentText.length === 0
 
 
     return (
@@ -87,17 +110,33 @@ export function Post({ author, publishedAt, content }) {
                     placeholder='Deixe um comentário'
                     value={newCommentText}
                     onChange={handleNewCommentChange}
+                    /* quando não tiver comentario, 
+                       não envia vazio*/
+                    onInvalid={handleNewCommentInvalid}
+                    required
                 />
 
                 <footer>
-                    <button type='submit'>Publicar</button>
+                    {/* podemos passar para o botão
+                        um comando que quando não 
+                        tiver nenhum texto escrito,
+                        ele não seja habilitado */}
+                    <button type='submit' disabled={isNewComment}>
+                        Publicar
+                    </button>
                 </footer>
 
             </form>
-            {/* listar os comentários */}        
+            {/* listar os comentários */}
             <div className={styles.commentList}>
                 {comments.map(comment => {
-                    return <Comment key={comment} content={comment}/>
+                    return (
+                        <Comment
+                            key={comment}
+                            content={comment}
+                            onDeleteComment={deleteComment}
+                        />
+                    )
                 }
                 )}
             </div>
